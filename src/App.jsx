@@ -5,7 +5,7 @@ const C = {
   bg:"#080B12", surface:"#0E1220", card:"#131929", border:"#1C2640",
   accent:"#5B9BFF", accentGlow:"rgba(91,155,255,0.18)",
   green:"#2DD4A0", red:"#FF6B72", amber:"#FFBA45", purple:"#B08AFF",
-  teal:"#38D9D9", pink:"#FF7EB3", text:"#E8EDF8", muted:"#5A6A90", dim:"#1E2D50",
+  teal:"#38D9D9", pink:"#FF7EB3", text:"#E8EDF8", muted:"#8A9DC0", dim:"#6B7FA3",
 };
 const G = {
   blue:`linear-gradient(135deg,#1B3A7A,#0E1F4A)`,
@@ -16,8 +16,9 @@ const G = {
 const gCSS = `
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Orbitron:wght@500;700&family=DM+Mono:wght@400;500&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden}
-body{font-family:'DM Sans',sans-serif;background:${C.bg};color:${C.text};font-size:14px}
+html{height:100%;height:-webkit-fill-available}
+body{min-height:100%;min-height:-webkit-fill-available;min-height:100dvh;
+  font-family:'DM Sans',sans-serif;background:${C.bg};color:${C.text};font-size:14px;overflow:hidden}
 input,textarea,select,button{font-family:'DM Sans',sans-serif;outline:none}
 ::-webkit-scrollbar{width:3px;height:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:${C.dim};border-radius:2px}
 input[type=date]::-webkit-calendar-picker-indicator,input[type=datetime-local]::-webkit-calendar-picker-indicator,input[type=time]::-webkit-calendar-picker-indicator{filter:invert(1) opacity(.4)}
@@ -391,7 +392,7 @@ const LiveClock = () => {
               style={{strokeDasharray:2*Math.PI*19,strokeDashoffset:2*Math.PI*19*(1-pctS),transition:"stroke-dashoffset .15s linear"}}/>
           </svg>
           <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <span className="orb" style={{fontSize:9,color:C.muted,fontWeight:500}}>{pad(s)}</span>
+            <span className="orb" style={{fontSize:9,color:"#8A9DC0",fontWeight:500}}>{pad(s)}</span>
           </div>
         </div>
         {/* Digits */}
@@ -444,7 +445,7 @@ const EnvPanel = () => {
     <div style={{marginBottom:12}}>
       <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8}}>
         <Icon n="sun" s={13} c={C.amber}/>
-        <span style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.9}}>
+        <span style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.9}}>
           Environment — {env.condition}
         </span>
         <span style={{marginLeft:"auto",fontSize:10,color:C.muted,display:"flex",alignItems:"center",gap:4}}>
@@ -458,7 +459,7 @@ const EnvPanel = () => {
             <Icon n={t.i} s={15} c={t.c}/>
             <div style={{fontSize:14,fontWeight:700,color:t.c,marginTop:4,lineHeight:1}}>{t.v}</div>
             <div style={{fontSize:9,color:C.muted,marginTop:3,fontWeight:700,textTransform:"uppercase",letterSpacing:.4}}>{t.l}</div>
-            <div style={{fontSize:9,color:C.dim,marginTop:1}}>{t.sub}</div>
+            <div style={{fontSize:9,color:C.muted,marginTop:1}}>{t.sub}</div>
           </div>
         ))}
       </div>
@@ -485,7 +486,7 @@ const Dashboard = ({bp,birthdays,reminders,notes,meals}) => {
         {[{l:"BP",v:bp.length,c:C.red},{l:"Alerts",v:pending.length,c:C.amber},{l:"Bdays",v:birthdays.length,c:C.purple},{l:"Notes",v:notes.filter(n=>!n.isArchived).length,c:C.green}].map(s=>(
           <div key={s.l} style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:13,padding:"11px 8px"}}>
             <div style={{fontSize:20,fontWeight:700,color:s.c}}>{s.v}</div>
-            <div style={{fontSize:9,color:C.muted,marginTop:2,fontWeight:700,textTransform:"uppercase",letterSpacing:.3}}>{s.l}</div>
+            <div style={{fontSize:9,color:"#8A9DC0",marginTop:2,fontWeight:700,textTransform:"uppercase",letterSpacing:.3}}>{s.l}</div>
           </div>
         ))}
       </div>
@@ -501,7 +502,7 @@ const Dashboard = ({bp,birthdays,reminders,notes,meals}) => {
             <span className="orb" style={{fontSize:30,fontWeight:700,color:cat.color,lineHeight:1}}>{latest.systolic}/{latest.diastolic}</span>
             <div style={{marginBottom:3}}>
               <div style={{fontSize:12,color:C.muted}}>♥ {latest.heartRate} bpm</div>
-              <div style={{fontSize:10,color:C.dim}}>{fmtFull(latest.recordedAt)}</div>
+              <div style={{fontSize:10,color:C.muted}}>{fmtFull(latest.recordedAt)}</div>
             </div>
           </div>
         </Card>
@@ -510,7 +511,7 @@ const Dashboard = ({bp,birthdays,reminders,notes,meals}) => {
       {/* Today's meals */}
       {todayMeals.length>0&&(
         <div style={{marginBottom:12}}>
-          <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Today's Meals — {DAYS_L[new Date().getDay()]}</div>
+          <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Today's Meals — {DAYS_L[new Date().getDay()]}</div>
           {["Breakfast","Lunch","Dinner"].map(mt=>{
             const m=todayMeals.find(x=>x.mealType===mt);
             const mc={Breakfast:C.amber,Lunch:C.green,Dinner:C.accent};
@@ -524,7 +525,7 @@ const Dashboard = ({bp,birthdays,reminders,notes,meals}) => {
                   <div style={{fontSize:13,fontWeight:500,color:m?C.text:C.muted}}>{m?m.mealName:"Not planned"}</div>
                 </div>
                 {m&&<span style={{fontSize:11,color:C.muted}}>{m.cal} kcal</span>}
-                {m?.time&&<span style={{fontSize:10,color:C.dim}}>🕐{m.time}</span>}
+                {m?.time&&<span style={{fontSize:10,color:C.muted}}>🕐{m.time}</span>}
               </div>
             );
           })}
@@ -534,7 +535,7 @@ const Dashboard = ({bp,birthdays,reminders,notes,meals}) => {
       {/* Upcoming birthdays */}
       {upcoming.length>0&&(
         <div style={{marginBottom:12}}>
-          <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Upcoming Birthdays</div>
+          <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Upcoming Birthdays</div>
           {upcoming.map(b=>{
             const d=daysUntil(b.birthdate);
             return (
@@ -553,7 +554,7 @@ const Dashboard = ({bp,birthdays,reminders,notes,meals}) => {
       {/* Pending reminders */}
       {pending.length>0&&(
         <div style={{marginBottom:12}}>
-          <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Pending Reminders</div>
+          <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Pending Reminders</div>
           {pending.map(r=>(
             <Card key={r.id} style={{marginBottom:6,padding:"10px 13px"}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
@@ -597,7 +598,7 @@ const BloodPressure = ({data,setData}) => {
         <Btn onClick={()=>setModal(true)}><Icon n="plus" s={14}/>Log</Btn>
       </div>
       <Card style={{marginBottom:14}}>
-        <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>BP Categories Reference</div>
+        <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>BP Categories Reference</div>
         {[{l:"Normal",sub:"< 120/80",c:C.green},{l:"Elevated",sub:"120–129 / < 80",c:C.amber},{l:"High Stage 1",sub:"130–139 / 80–89",c:"#FB923C"},{l:"High Stage 2",sub:"≥ 140 / ≥ 90",c:C.red}].map(x=>(
           <div key={x.l} style={{display:"flex",alignItems:"center",gap:8,marginBottom:5}}>
             <div style={{width:8,height:8,borderRadius:3,background:x.c}}/>
@@ -620,11 +621,11 @@ const BloodPressure = ({data,setData}) => {
                   <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:4}}>
                     <Pill color={cat.color}>{cat.label}</Pill>
                     <Pill color={C.muted}>♥ {r.heartRate} bpm</Pill>
-                    {r.arm&&<Pill color={C.dim}>{r.arm} arm</Pill>}
-                    {r.position&&<Pill color={C.dim}>{r.position}</Pill>}
+                    {r.arm&&<Pill color="#6B8FBF">{r.arm} arm</Pill>}
+                    {r.position&&<Pill color="#6B8FBF">{r.position}</Pill>}
                   </div>
                   {r.notes&&<div style={{fontSize:12,color:C.muted}}>{r.notes}</div>}
-                  <div style={{fontSize:10,color:C.dim,marginTop:3}}>{fmtFull(r.recordedAt)}</div>
+                  <div style={{fontSize:10,color:C.muted,marginTop:3}}>{fmtFull(r.recordedAt)}</div>
                 </div>
                 <Btn onClick={()=>setData(p=>p.filter(x=>x.id!==r.id))} variant="danger" small><Icon n="trash" s={12}/></Btn>
               </div>
@@ -781,7 +782,7 @@ const MealPlans = ({data,setData}) => {
       {/* Planned meals */}
       {tabMeals.length>0&&(
         <div style={{marginBottom:14}}>
-          <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:7}}>Planned for {DAYS_L[selDay]}</div>
+          <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:7}}>Planned for {DAYS_L[selDay]}</div>
           {tabMeals.map(m=>(
             <Card key={m.id} style={{borderLeft:`3px solid ${MC[m.mealType]}`}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
@@ -790,7 +791,7 @@ const MealPlans = ({data,setData}) => {
                   <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
                     {m.cal&&<Pill color={MC[m.mealType]}>{m.cal} kcal</Pill>}
                     {m.servingSize&&<Pill color={C.muted}>{m.servingSize}</Pill>}
-                    {m.time&&<Pill color={C.dim}>🕐 {m.time}</Pill>}
+                    {m.time&&<Pill color="#6B8FBF">🕐 {m.time}</Pill>}
                   </div>
                 </div>
                 <div style={{display:"flex",gap:4}}>
@@ -805,7 +806,7 @@ const MealPlans = ({data,setData}) => {
 
       {/* Suggestions */}
       <div>
-        <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:7}}>{tab} Ideas</div>
+        <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:7}}>{tab} Ideas</div>
         {(MEALS_DB[tab]||[]).map(meal=>{
           const added=tabMeals.some(m=>m.mealName===meal.name);
           return (
@@ -815,7 +816,7 @@ const MealPlans = ({data,setData}) => {
                 <div style={{fontWeight:600,fontSize:13,marginBottom:4}}>{meal.name}</div>
                 <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
                   <Pill color={MC[tab]}>{meal.cal} kcal</Pill>
-                  <Pill color={C.dim}>{meal.time}</Pill>
+                  <Pill color="#6B8FBF">{meal.time}</Pill>
                   {meal.tags.slice(0,2).map(t=><Pill key={t} color={C.muted}>{t}</Pill>)}
                 </div>
               </div>
@@ -852,11 +853,11 @@ const MealPlans = ({data,setData}) => {
         <Modal title={recipe.name} onClose={()=>setRecipe(null)}>
           <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
             <Pill color={MC[recipe.mealType]}>{recipe.cal} kcal</Pill>
-            <Pill color={C.dim}>{recipe.time}</Pill>
+            <Pill color="#6B8FBF">{recipe.time}</Pill>
             {recipe.tags.map(t=><Pill key={t} color={C.muted}>{t}</Pill>)}
           </div>
           <div style={{marginBottom:16}}>
-            <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Ingredients</div>
+            <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Ingredients</div>
             {recipe.ingredients.map((ing,i)=>(
               <div key={i} style={{display:"flex",gap:9,alignItems:"center",padding:"6px 0",borderBottom:`1px solid ${C.border}`}}>
                 <div style={{width:6,height:6,borderRadius:"50%",background:MC[recipe.mealType],flexShrink:0}}/>
@@ -865,7 +866,7 @@ const MealPlans = ({data,setData}) => {
             ))}
           </div>
           <div>
-            <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Method</div>
+            <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>Method</div>
             {recipe.steps.map((step,i)=>(
               <div key={i} style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:10}}>
                 <div style={{minWidth:22,height:22,borderRadius:"50%",background:MC[recipe.mealType],
@@ -923,7 +924,7 @@ const Reminders = ({data,setData}) => {
                 <div style={{fontWeight:600,fontSize:13,marginBottom:2,textDecoration:r.isCompleted?"line-through":"none",color:r.isCompleted?C.muted:C.text}}>{r.title}</div>
                 {r.description&&<div style={{fontSize:11,color:C.muted,marginBottom:4}}>{r.description}</div>}
                 <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                  <Pill color={C.dim}>{fmtFull(r.time)}</Pill>
+                  <Pill color="#6B8FBF">{fmtFull(r.time)}</Pill>
                   {r.recurringType!=="none"&&<Pill color={C.purple}>🔁 {r.recurringType}</Pill>}
                 </div>
               </div>
@@ -988,7 +989,7 @@ const Notes = ({data,setData}) => {
                   {n.category&&<Pill color={C.accent}>{n.category}</Pill>}
                   {n.tags&&n.tags.split(",").map(t=>t.trim()&&<Pill key={t} color={C.dim}>{t.trim()}</Pill>)}
                 </div>
-                <div style={{fontSize:10,color:C.dim,marginTop:4}}>{fmtFull(n.updatedAt)}</div>
+                <div style={{fontSize:10,color:C.muted,marginTop:4}}>{fmtFull(n.updatedAt)}</div>
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:4}} onClick={e=>e.stopPropagation()}>
                 <Btn onClick={()=>setData(p=>p.map(x=>x.id===n.id?{...x,isPinned:!x.isPinned}:x))} variant="ghost" small>
@@ -1116,7 +1117,7 @@ const Calendar = ({birthdays,reminders}) => {
       {/* Selected day */}
       {selDay&&(
         <div style={{marginBottom:14}}>
-          <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>
+          <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>
             {MONTHS_L[month]} {selDay} — {selEvs.length} event{selEvs.length!==1?"s":""}
           </div>
           {selEvs.length===0?(
@@ -1130,7 +1131,7 @@ const Calendar = ({birthdays,reminders}) => {
               <span style={{fontSize:20}}>{ev.emoji}</span>
               <div>
                 <div style={{fontWeight:700,fontSize:13}}>{ev.name}</div>
-                <div style={{fontSize:10,color:C.muted,textTransform:"capitalize"}}>{ev.type}</div>
+                <div style={{fontSize:10,color:"#8A9DC0",textTransform:"capitalize"}}>{ev.type}</div>
               </div>
             </div>
           ))}
@@ -1139,7 +1140,7 @@ const Calendar = ({birthdays,reminders}) => {
 
       {/* Holidays this month */}
       <div>
-        <div style={{fontSize:10,fontWeight:700,color:C.muted,textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>
+        <div style={{fontSize:10,fontWeight:700,color:"#8A9DC0",textTransform:"uppercase",letterSpacing:.8,marginBottom:8}}>
           All Holidays in {MONTHS_S[month]}
         </div>
         {mHolidays.length===0?(
@@ -1159,7 +1160,7 @@ const Calendar = ({birthdays,reminders}) => {
                   <div style={{fontSize:10,color:C.muted}}>{MONTHS_S[month]} {h.day} · {h.type}</div>
                 </div>
               </div>
-              {isPast?<Pill color={C.dim}>Past</Pill>:dl<=0?<Pill color={C.red}>Today!</Pill>:dl<=7?<Pill color={C.amber}>{dl}d</Pill>:<Pill color={C.muted}>{dl}d</Pill>}
+              {isPast?<Pill color="#6B8FBF">Past</Pill>:dl<=0?<Pill color={C.red}>Today!</Pill>:dl<=7?<Pill color={C.amber}>{dl}d</Pill>:<Pill color={C.muted}>{dl}d</Pill>}
             </div>
           );
         })}
@@ -1201,8 +1202,9 @@ export default function App(){
   return (
     <>
       <style>{gCSS}</style>
-      <div style={{maxWidth:480,margin:"0 auto",height:"100vh",display:"flex",
-        flexDirection:"column",background:C.bg,overflow:"hidden"}}>
+      <div style={{maxWidth:480,margin:"0 auto",height:"100vh",height:"100dvh",display:"flex",
+        flexDirection:"column",background:C.bg,position:"fixed",top:0,left:0,right:0,bottom:0,
+        marginLeft:"auto",marginRight:"auto"}}>
         {/* Header */}
         <div style={{padding:"11px 15px 9px",background:C.surface,borderBottom:`1px solid ${C.border}`,flexShrink:0}}>
           <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -1222,11 +1224,12 @@ export default function App(){
           {pages[tab]}
         </div>
         {/* Bottom nav */}
-        <div style={{background:C.surface,borderTop:`1px solid ${C.border}`,display:"flex",flexShrink:0}}>
+        <div style={{background:C.surface,borderTop:`1px solid ${C.border}`,display:"flex",flexShrink:0,
+          paddingBottom:"env(safe-area-inset-bottom,12px)"}}>
           {NAV.map(n=>(
             <button key={n.k} onClick={()=>setTab(n.k)}
-              style={{flex:1,padding:"8px 0 9px",display:"flex",flexDirection:"column",alignItems:"center",gap:2,
-                background:"none",border:"none",color:tab===n.k?C.accent:C.muted,transition:"color .15s",position:"relative"}}>
+              style={{flex:1,padding:"10px 0 8px",display:"flex",flexDirection:"column",alignItems:"center",gap:3,
+                background:"none",border:"none",color:tab===n.k?C.accent:C.muted,transition:"color .15s",position:"relative",minHeight:56}}>
               <div style={{transform:tab===n.k?"scale(1.2)":"scale(1)",transition:"transform .15s"}}>
                 <Icon n={n.i} s={17} c={tab===n.k?C.accent:C.muted}/>
               </div>
